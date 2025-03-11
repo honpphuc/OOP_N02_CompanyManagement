@@ -20,6 +20,7 @@ public class MainFrame extends javax.swing.JFrame {
     DefaultTableModel dtmNV, dtmCV; //Giúp lưu dữ liệu trong bảng Nhân Viên
     int row, index;
     List <NhanSu> dsNhanVien;
+    List <CongViec> dsCongViec;
     public MainFrame(QuanLy QUAN_LY) {
         setLocationRelativeTo(null);
         initComponents();
@@ -57,7 +58,7 @@ public class MainFrame extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         maCVField = new javax.swing.JTextField();
-        tenCVTable = new javax.swing.JTextField();
+        tenCVField = new javax.swing.JTextField();
         gioCVField = new javax.swing.JTextField();
         maNVPhuTrachField = new javax.swing.JTextField();
         themCVButton = new javax.swing.JButton();
@@ -249,6 +250,11 @@ public class MainFrame extends javax.swing.JFrame {
         jLabel9.setText("Mã NV Phụ Trách:");
 
         themCVButton.setText("Thêm");
+        themCVButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                themCVButtonActionPerformed(evt);
+            }
+        });
 
         suaCVButton.setText("Sửa");
         suaCVButton.addActionListener(new java.awt.event.ActionListener() {
@@ -295,7 +301,7 @@ public class MainFrame extends javax.swing.JFrame {
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(maCVField, javax.swing.GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE)
                             .addComponent(gioCVField)
-                            .addComponent(tenCVTable)
+                            .addComponent(tenCVField)
                             .addComponent(maNVPhuTrachField)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(19, 19, 19)
@@ -318,7 +324,7 @@ public class MainFrame extends javax.swing.JFrame {
                         .addGap(15, 15, 15)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel7)
-                            .addComponent(tenCVTable, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(tenCVField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(15, 15, 15)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel8)
@@ -459,7 +465,8 @@ public class MainFrame extends javax.swing.JFrame {
                 }
             }
             JOptionPane.showMessageDialog(this, "Thay đổi thông tin nhân viên thành công!");
-            clearData();
+            clearDataNV();
+            themNVButton.setEnabled(true);
         }
     }//GEN-LAST:event_suaNVButtonActionPerformed
 
@@ -491,7 +498,7 @@ public class MainFrame extends javax.swing.JFrame {
             NhanSu nhanSu = new NhanSu(maNV, tenNV, namSinh, gioiTinh, phongBan);
             dsNhanVien.add(nhanSu);
             JOptionPane.showMessageDialog(this, "Thêm nhân viên thành công!");
-            clearData();
+            clearDataNV();
         }
     }//GEN-LAST:event_themNVButtonActionPerformed
 
@@ -522,17 +529,69 @@ public class MainFrame extends javax.swing.JFrame {
         for(NhanSu nv : dsNhanVien){
             if(nv.getIdNhanVien().equals(maNV)){
                 dsNhanVien.remove(nv);
+                JOptionPane.showMessageDialog(phongComboBox, "Xóa nhân viên thành công");
+                break;
             }
         }
+        clearDataNV();
+        themNVButton.setEnabled(true);
     }//GEN-LAST:event_xoaNVButtonActionPerformed
 
-    //Làm trống ô nhập thông tin
-    public void clearData(){
+    //Làm trống ô nhập thông tin tab Nhân viên
+    public void clearDataNV(){
         maNVField.setText("");
         tenNVField.setText("");
         namSinhField.setText("");
         buttonGroup1.clearSelection();
     }
+    
+    //Thêm công việc
+    private void themCVButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_themCVButtonActionPerformed
+        String maCV = maCVField.getText();
+        String tenCV = tenCVField.getText();
+        String soGioLamStr = gioCVField.getText();
+        String maNV = maNVPhuTrachField.getText();
+        
+        if (maCV.equals("") || tenCV.equals("") || soGioLamStr.equals("") || maNV.equals("")){
+                JOptionPane.showMessageDialog(maNVPhuTrachField, "Mã nhân viên phụ trách phải trùng mới mã nhân viên đã nhập vào!");  
+        }else{
+            
+            //Kiểm tra nhân viên
+            boolean check = true;
+            
+            for(NhanSu nv : dsNhanVien){
+                if(nv.getIdNhanVien().equals(maNV)){
+                    
+                //Thêm dữ liệu vào bảng Công việc
+                dtmCV = (DefaultTableModel) CVTable.getModel();
+                dtmCV.addRow(new Object[] {maCV, tenCV, soGioLamStr, maNV} );
+                CVTable.setModel(dtmCV);
+                
+                //Thêm dữ liệu vào List Công việc
+                float soGioLam = Float.parseFloat(soGioLamStr);
+                CongViec cv = new CongViec(maCV, tenCV, soGioLam, maNV);
+                
+                check = true;
+                break;
+                }
+            }
+            if(check){
+                JOptionPane.showMessageDialog(this, "Thêm nhân viên thành công!");
+            }else{
+                JOptionPane.showMessageDialog(maNVPhuTrachField,"Mã nhân viên phải trùng với mã nhân viên đã nhập vào!");
+                maNVPhuTrachField.setText("");
+            }
+        }
+    }//GEN-LAST:event_themCVButtonActionPerformed
+    
+    //Làm trống ô nhập thông tin tab CôngViệc
+    public void clearDataCV(){
+        maCVField.setText("");
+        tenCVField.setText("");
+        gioCVField.setText("");
+        maNVPhuTrachField.setText("");
+    }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable CVTable;
@@ -569,7 +628,7 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JLabel searchLabel;
     private javax.swing.JButton suaCVButton;
     private javax.swing.JButton suaNVButton;
-    private javax.swing.JTextField tenCVTable;
+    private javax.swing.JTextField tenCVField;
     private javax.swing.JTextField tenNVField;
     private javax.swing.JButton themCVButton;
     private javax.swing.JButton themNVButton;

@@ -4,7 +4,7 @@ package company;
 public class CongViec {
     private String maCV;
     private String tenCV;
-    private String soGioLam;
+    private float soGioLam;
     String maNV;
 
     public String getMaCV() {
@@ -23,11 +23,11 @@ public class CongViec {
         this.tenCV = tenCV;
     }
 
-    public String getSoGioLam() {
+    public float getSoGioLam() {
         return soGioLam;
     }
 
-    public void setSoGioLam(String soGioLam) {
+    public void setSoGioLam(float soGioLam) {
         this.soGioLam = soGioLam;
     }
 
@@ -39,11 +39,8 @@ public class CongViec {
         this.maNV = maNV;
     }
 
-    public CongViec() {
-        this.maNV = "0";
-    }
 
-    public CongViec(String maCV, String tenCV, String soGioLam, String maNV) {
+    public CongViec(String maCV, String tenCV, float soGioLam, String maNV) {
         this.maCV = maCV;
         this.tenCV = tenCV;
         this.soGioLam = soGioLam;

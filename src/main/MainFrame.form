@@ -356,7 +356,7 @@
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                   <Component id="maCVField" pref="195" max="32767" attributes="0"/>
                                   <Component id="gioCVField" max="32767" attributes="0"/>
-                                  <Component id="tenCVTable" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="tenCVField" alignment="0" max="32767" attributes="0"/>
                                   <Component id="maNVPhuTrachField" alignment="0" max="32767" attributes="0"/>
                               </Group>
                           </Group>
@@ -386,7 +386,7 @@
                               <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
                                   <Component id="jLabel7" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="tenCVTable" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="tenCVField" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
@@ -450,7 +450,7 @@
             </Component>
             <Component class="javax.swing.JTextField" name="maCVField">
             </Component>
-            <Component class="javax.swing.JTextField" name="tenCVTable">
+            <Component class="javax.swing.JTextField" name="tenCVField">
             </Component>
             <Component class="javax.swing.JTextField" name="gioCVField">
             </Component>
@@ -460,6 +460,9 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Th&#xea;m"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="themCVButtonActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="suaCVButton">
               <Properties>

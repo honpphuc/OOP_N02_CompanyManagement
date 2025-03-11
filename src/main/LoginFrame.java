@@ -14,8 +14,8 @@ import javax.swing.SwingUtilities;
  */
 public class LoginFrame extends javax.swing.JFrame {
 
-    private String correctUsername = "admin";
-    private String correctPassword = "123456a@";
+    private String correctUsername = "1";
+    private String correctPassword = "1";
     public LoginFrame() {
         initComponents();
         setLocationRelativeTo(null);
@@ -153,8 +153,8 @@ public class LoginFrame extends javax.swing.JFrame {
         
         //Mở main form
         QuanLy quanLy = new QuanLy();
-        MainFrame mainFrame = new MainFrame();
-        mainFrame.getVisible(true);
+        MainFrame mainFrame = new MainFrame(quanLy);
+        mainFrame.setVisible(true);
     }
     
     public static void main(String args[]) {

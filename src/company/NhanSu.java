@@ -66,7 +66,7 @@ public class NhanSu {
     }
     
 
-    public NhanSu(String idNhanVien, String tenNhanVien, int NamSinh, String gioiTinh, String phongBan, float Luong) {
+    public NhanSu(String idNhanVien, String tenNhanVien, int NamSinh, String gioiTinh, String phongBan) {
         this.idNhanVien = idNhanVien;
         this.tenNhanVien = tenNhanVien;
         this.NamSinh = NamSinh;

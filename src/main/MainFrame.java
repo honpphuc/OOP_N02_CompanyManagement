@@ -8,6 +8,8 @@ import java.util.List;
 
 import company.*;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  *
@@ -26,6 +28,7 @@ public class MainFrame extends javax.swing.JFrame {
         initComponents();
         dtmNV = new DefaultTableModel();
         dsNhanVien = new ArrayList<>();
+        dsCongViec = new ArrayList<>();
     }
 
     @SuppressWarnings("unchecked")
@@ -264,6 +267,11 @@ public class MainFrame extends javax.swing.JFrame {
         });
 
         xoaCVButton.setText("Xóa");
+        xoaCVButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                xoaCVButtonActionPerformed(evt);
+            }
+        });
 
         CVTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -279,6 +287,11 @@ public class MainFrame extends javax.swing.JFrame {
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
+            }
+        });
+        CVTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                CVTableMouseClicked(evt);
             }
         });
         jScrollPane2.setViewportView(CVTable);
@@ -471,7 +484,45 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_suaNVButtonActionPerformed
 
     private void suaCVButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_suaCVButtonActionPerformed
-        // TODO add your handling code here:
+        String maCV = maCVField.getText();
+        String tenCV = tenCVField.getText();
+        String soGioLamStr = gioCVField.getText();
+        String maNV = maNVPhuTrachField.getText();
+        
+        if (maCV.equals("") || tenCV.equals("") || soGioLamStr.equals("") || maNV.equals("")){
+                JOptionPane.showMessageDialog(maNVPhuTrachField, "Không được để trống dữ liệu!");  
+        }else{
+            
+            //Kiểm tra nhân viên
+            boolean check1 = false;
+            
+            for(NhanSu nv : dsNhanVien){
+                if(nv.getIdNhanVien().equals(maNV)){
+                    
+                    //Thêm dữ liệu vào bảng Công việc
+                    dtmCV.setValueAt(maCV, row, 0);
+                    dtmCV.setValueAt(tenCV, row, 1);
+                    dtmCV.setValueAt(soGioLamStr, row, 2);
+                    dtmCV.setValueAt(maNV, row, 3);
+                    JOptionPane.showMessageDialog(this, "Cập nhật thông tin thành công!");
+                    clearDataCV();
+                    //Thêm dữ liệu vào List Công việc
+                    for(CongViec cv : dsCongViec){
+                        if(cv.getMaCV().equals(maCV)){
+                            cv.setMaCV(maCV);
+                            cv.setTenCV(tenCV);
+                            float soGioLam = Float.parseFloat(gioCVField.getText());
+                            cv.setSoGioLam(soGioLam);
+                            cv.setMaNV(maNV);
+                        }
+                    }
+                }
+                else{
+                    JOptionPane.showMessageDialog(maNVPhuTrachField, "Mã nhân viên phụ trách phải trùng mới mã nhân viên đã nhập vào!");
+                    maNVPhuTrachField.setText("");
+                }
+            }
+        }
     }//GEN-LAST:event_suaCVButtonActionPerformed
 
     private void themNVButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_themNVButtonActionPerformed
@@ -557,7 +608,7 @@ public class MainFrame extends javax.swing.JFrame {
         }else{
             
             //Kiểm tra nhân viên
-            boolean check = true;
+            boolean check = false;
             
             for(NhanSu nv : dsNhanVien){
                 if(nv.getIdNhanVien().equals(maNV)){
@@ -570,19 +621,43 @@ public class MainFrame extends javax.swing.JFrame {
                 //Thêm dữ liệu vào List Công việc
                 float soGioLam = Float.parseFloat(soGioLamStr);
                 CongViec cv = new CongViec(maCV, tenCV, soGioLam, maNV);
-                
+                dsCongViec.add(cv);
                 check = true;
                 break;
                 }
             }
             if(check){
                 JOptionPane.showMessageDialog(this, "Thêm nhân viên thành công!");
+                clearDataCV();
             }else{
                 JOptionPane.showMessageDialog(maNVPhuTrachField,"Mã nhân viên phải trùng với mã nhân viên đã nhập vào!");
                 maNVPhuTrachField.setText("");
             }
         }
     }//GEN-LAST:event_themCVButtonActionPerformed
+
+    private void CVTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CVTableMouseClicked
+        dtmCV = (DefaultTableModel) CVTable.getModel();
+        row = CVTable.getSelectedRow();
+        maCVField.setText((String) CVTable.getValueAt(row, 0));
+        tenCVField.setText((String) CVTable.getValueAt(row, 1));
+        gioCVField.setText((String) CVTable.getValueAt(row, 2));
+        maNVPhuTrachField.setText((String) CVTable.getValueAt(row, 3));
+        themCVButton.setEnabled(false);
+    }//GEN-LAST:event_CVTableMouseClicked
+
+    //Xóa công việc
+    private void xoaCVButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_xoaCVButtonActionPerformed
+        dtmCV.removeRow(row);
+        String maCV = maCVField.getText();
+        for(CongViec cv : dsCongViec){
+            if(cv.getMaCV().equals(maCV)){
+                dsCongViec.remove(cv);
+                JOptionPane.showMessageDialog(phongComboBox, "Đã xóa công việc!");
+                clearDataCV();
+            }
+        }
+    }//GEN-LAST:event_xoaCVButtonActionPerformed
     
     //Làm trống ô nhập thông tin tab CôngViệc
     public void clearDataCV(){

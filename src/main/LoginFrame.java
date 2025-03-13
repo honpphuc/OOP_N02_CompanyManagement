@@ -153,7 +153,7 @@ public class LoginFrame extends javax.swing.JFrame {
         
         //Mở main form
         QuanLy quanLy = new QuanLy();
-        MainFrame mainFrame = new MainFrame(quanLy);
+        MainFrame mainFrame = new MainFrame();
         mainFrame.setVisible(true);
     }
     

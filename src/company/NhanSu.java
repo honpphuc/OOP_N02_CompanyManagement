@@ -10,7 +10,7 @@ public class NhanSu {
     private int NamSinh;
     private String gioiTinh;
     private String phongBan;
-    private float Luong;
+    private float luong;
     private ArrayList <CongViec> dsCongViec;
 
     public String getIdNhanVien() {
@@ -61,8 +61,12 @@ public class NhanSu {
         this.dsCongViec = dsCongViec;
     }
 
-
+    public void setLuong(float luong){
+        this.luong = luong;
+    }
+    
     public NhanSu() {
+        dsCongViec = new ArrayList<>();
     }
     
 
@@ -72,7 +76,27 @@ public class NhanSu {
         this.NamSinh = NamSinh;
         this.gioiTinh = gioiTinh;
         this.phongBan = phongBan;
-        this.Luong = Luong;
+        this.dsCongViec = new ArrayList<>();
+    }
+
+    public NhanSu(String idNhanVien, String tenNhanVien, int NamSinh, String gioiTinh, String phongBan, float Luong, ArrayList<CongViec> dsCongViec) {
+        this.idNhanVien = idNhanVien;
+        this.tenNhanVien = tenNhanVien;
+        this.NamSinh = NamSinh;
+        this.gioiTinh = gioiTinh;
+        this.phongBan = phongBan;
+        this.luong = luong;
+        this.dsCongViec = dsCongViec != null ? dsCongViec : new ArrayList<>();
     }
     
+    public float tinhLuong() {
+        float luongCoBan = 5000000; //5 Triệu
+        float  tongSoGioLam = 0;
+        
+        for(CongViec cv : dsCongViec) {
+            tongSoGioLam += cv.getSoGioLam();
+        }
+        return luongCoBan + 100000 * tongSoGioLam;
+    }
+
 }

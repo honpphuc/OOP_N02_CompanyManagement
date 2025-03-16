@@ -14,8 +14,8 @@ import javax.swing.SwingUtilities;
  */
 public class LoginFrame extends javax.swing.JFrame {
 
-    private String correctUsername = "1";
-    private String correctPassword = "1";
+    private String correctUsername = "admin";
+    private String correctPassword = "123456a@";
     public LoginFrame() {
         initComponents();
         setLocationRelativeTo(null);

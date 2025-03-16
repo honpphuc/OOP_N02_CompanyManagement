@@ -4,7 +4,7 @@ package company;
 import java.util.ArrayList;
 
 public class NhanSu {
-    
+    //1. Attributes
     private String idNhanVien;
     private String tenNhanVien;
     private int NamSinh;
@@ -13,6 +13,7 @@ public class NhanSu {
     private float luong;
     private ArrayList <CongViec> dsCongViec;
 
+    //2. Getters/Setters
     public String getIdNhanVien() {
         return idNhanVien;
     }
@@ -69,7 +70,7 @@ public class NhanSu {
         dsCongViec = new ArrayList<>();
     }
     
-
+    //3. Constructors
     public NhanSu(String idNhanVien, String tenNhanVien, int NamSinh, String gioiTinh, String phongBan) {
         this.idNhanVien = idNhanVien;
         this.tenNhanVien = tenNhanVien;
@@ -85,10 +86,10 @@ public class NhanSu {
         this.NamSinh = NamSinh;
         this.gioiTinh = gioiTinh;
         this.phongBan = phongBan;
-        this.luong = luong;
         this.dsCongViec = dsCongViec != null ? dsCongViec : new ArrayList<>();
     }
     
+    //4. Business methods
     public float tinhLuong() {
         float luongCoBan = 5000000; //5 Triệu
         float  tongSoGioLam = 0;
@@ -98,5 +99,4 @@ public class NhanSu {
         }
         return luongCoBan + 100000 * tongSoGioLam;
     }
-
 }

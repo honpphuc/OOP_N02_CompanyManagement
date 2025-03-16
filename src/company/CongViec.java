@@ -2,11 +2,13 @@
 package company;
 
 public class CongViec {
+    //1. Attributes
     private String maCV;
     private String tenCV;
     private float soGioLam;
     String maNV;
 
+    //2. Getters/Setters
     public String getMaCV() {
         return maCV;
     }
@@ -39,13 +41,11 @@ public class CongViec {
         this.maNV = maNV;
     }
 
-
+    //3. Constructors
     public CongViec(String maCV, String tenCV, float soGioLam, String maNV) {
         this.maCV = maCV;
         this.tenCV = tenCV;
         this.soGioLam = soGioLam;
         this.maNV = maNV;
     }
-    
-    
 }
